@@ -77,13 +77,14 @@
 
 			<?php foreach($this->view->tweets as $id_tweet => $tweet) { ?>
 				<div class="row tweet">
+					<?php echo '<pre>'; print_r($tweet); echo '</pre>' ?>
 					<div class="col">
 						<p><strong><?= $tweet['nome'] ?></strong> <small><span class="text text-muted">- <?= $tweet['data'] ?></span></small></p>
 						<p><?= $tweet['tweet'] ?></p>
 
 						<br />
 						<?php if($tweet['id_usuario'] == $_SESSION['id']) { ?>
-							<form>
+							<form action="/remover_tweet?tweet=<?=$tweet['id']?>" method="post">
 								<div class="col d-flex justify-content-end">
 									<button type="submit" class="btn btn-danger"><small>Remover</small></button>
 								</div>
