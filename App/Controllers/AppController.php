@@ -20,16 +20,40 @@ class AppController extends Action
 
         $tweet->__set('id_usuario', $_SESSION['id']);
 
-        $tweets = $tweet->getAll();
+        
+        //Variáveis de paginação
+        $total_registros_pagina = 10;
+        //$deslocamento = 0;
+        $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $deslocamento = ($pagina - 1) * $total_registros_pagina;
+
+        /*
+        //--
+        $total_registros_pagina = 10;
+        $deslocamento = 10;
+        $pagina = 2;
+        */
+
+
+        //$tweets = $tweet->getAll();
+        echo "<br><br><br><br><br>Página: $pagina Total de regsitros por pagina: $total_registros_pagina | Deslocamento: $deslocamento"; 
+        $tweets = $tweet->getPorPagina($total_registros_pagina, $deslocamento);
+        $total_tweets_exibir = $tweet->getTotalRegistros();
+        $total_de_paginas = ceil($total_tweets_exibir['total'] / $total_registros_pagina);
+        
+        $this->view->pagina_ativa = $pagina;
 
         $this->view->tweets = $tweets;
+
+        $this->view->total_tweets = $total_tweets_exibir['total'];
+
+        $this->view->total_de_paginas = ceil($total_tweets_exibir['total'] / $total_registros_pagina);
 
         $usuario = Container::getModel('Usuario');
 
         $usuario->__set('id', $_SESSION['id']);
 
         $this->view->info_usuario = $usuario->getInfoUsuario();
-        $this->view->total_tweets = $usuario->getTotalTweets();
         $this->view->total_seguindo = $usuario->getTotalSeguindo();
         $this->view->total_seguidores = $usuario->getTotalSeguidores();
 
