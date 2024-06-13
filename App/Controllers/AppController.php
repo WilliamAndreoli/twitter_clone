@@ -36,7 +36,6 @@ class AppController extends Action
 
 
         //$tweets = $tweet->getAll();
-        echo "<br><br><br><br><br>Página: $pagina Total de regsitros por pagina: $total_registros_pagina | Deslocamento: $deslocamento"; 
         $tweets = $tweet->getPorPagina($total_registros_pagina, $deslocamento);
         $total_tweets_exibir = $tweet->getTotalRegistros();
         $total_de_paginas = ceil($total_tweets_exibir['total'] / $total_registros_pagina);
